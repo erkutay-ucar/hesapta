@@ -20,17 +20,27 @@ Hesapta, birden fazla restoranın tek bir platform üzerinden yönetilebildiği 
 
 ## Docker ile çalıştırma
 
+Önce ortam dosyasını oluşturun ve içindeki parolaları değiştirin. `.env` dosyası Git'e eklenmez.
+
+```bash
+cp .env.example .env
+```
+
 Bütün servisleri derleyip başlatmak için:
 
 ```bash
 docker compose up -d --build
 ```
 
-Uygulama http://localhost:8080 adresinden açılır. Servisleri durdurmak için:
+Uygulama http://localhost:8080 adresinden açılır. MySQL servisi sağlıklı olana kadar uygulama servisi başlatılmaz; durumu `docker compose ps` ile görebilirsiniz. Veritabanı dosyaları `mysql-data` adlı Docker volume içinde tutulur ve container silinse bile korunur.
+
+Servisleri durdurmak için:
 
 ```bash
 docker compose down
 ```
+
+`docker compose down -v` komutu volume'u da sildiği için bütün veritabanı verilerini kaldırır.
 
 ## Durum
 

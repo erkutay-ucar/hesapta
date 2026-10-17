@@ -7,6 +7,39 @@ services:
     image: hesapta-app:dev
     ports:
       - "${APP_PORT:-8080}:80"
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
     volumes:
       - ./:/var/www/html
+    depends_on:
+      mysql:
+        condition: service_healthy
     restart: unless-stopped
+
+  mysql:
+    image: mysql:8.4
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-time-zone=+00:00
+      - --skip-name-resolve
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-hesapta}
+      MYSQL_USER: ${DB_USERNAME:-hesapta}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD .env dosyasinda tanimlanmalidir}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?DB_ROOT_PASSWORD .env dosyasinda tanimlanmalidir}
+    ports:
+      - "127.0.0.1:${DB_FORWARD_PORT:-3307}:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p\"$$MYSQL_ROOT_PASSWORD\" --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+    restart: unless-stopped
+
+volumes:
+  mysql-data:
