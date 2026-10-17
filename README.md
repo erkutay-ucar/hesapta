@@ -42,6 +42,15 @@ docker compose down
 
 `docker compose down -v` komutu volume'u da sildiği için bütün veritabanı verilerini kaldırır.
 
+## phpMyAdmin
+
+phpMyAdmin yalnızca yerel makineden erişilebilecek şekilde `127.0.0.1` adresine bağlanır:
+
+- Adres: http://localhost:8081
+- Kullanıcı adı ve parola: `.env` içindeki `DB_USERNAME` ve `DB_PASSWORD`
+
+Sunucu yalnızca geliştirme amaçlıdır; canlı ortamda `phpmyadmin` servisi çalıştırılmamalıdır.
+
 ## Durum
 
 Proje geliştirme aşamasındadır. Kurulum ve kullanım adımları ilgili altyapı tamamlandıkça bu dosyaya eklenir.
