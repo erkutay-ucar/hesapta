@@ -1,0 +1,8 @@
+.git
+.env
+.idea
+.vscode
+storage/logs/*
+storage/uploads/*
+!storage/logs/.gitkeep
+!storage/uploads/.gitkeep

@@ -1,0 +1,12 @@
+name: hesapta
+
+services:
+  app:
+    build:
+      context: .
+    image: hesapta-app:dev
+    ports:
+      - "${APP_PORT:-8080}:80"
+    volumes:
+      - ./:/var/www/html
+    restart: unless-stopped

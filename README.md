@@ -13,8 +13,24 @@ Hesapta, birden fazla restoranın tek bir platform üzerinden yönetilebildiği 
 
 | Klasör | İçerik |
 |---|---|
+| `docker` | Apache ve PHP yapılandırmaları |
+| `public` | Web sunucusunun kök klasörü |
 | `storage/logs` | Uygulama logları |
 | `storage/uploads` | Yüklenen logo ve ürün fotoğrafları |
+
+## Docker ile çalıştırma
+
+Bütün servisleri derleyip başlatmak için:
+
+```bash
+docker compose up -d --build
+```
+
+Uygulama http://localhost:8080 adresinden açılır. Servisleri durdurmak için:
+
+```bash
+docker compose down
+```
 
 ## Durum
 
