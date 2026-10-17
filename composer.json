@@ -1,0 +1,22 @@
+{
+  "name": "hesapta/hesapta",
+  "description": "Çoklu restoran destekli web tabanlı restoran yönetim sistemi",
+  "type": "project",
+  "license": "proprietary",
+  "require": {
+    "php": "^8.3",
+    "ext-gd": "*",
+    "ext-intl": "*",
+    "ext-mbstring": "*",
+    "ext-pdo": "*",
+    "ext-pdo_mysql": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  }
+}
