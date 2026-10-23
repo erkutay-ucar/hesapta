@@ -1,0 +1,49 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      CI_ENVIRONMENT: ${CI_ENVIRONMENT}
+      app.baseURL: ${APP_URL}
+      database.default.hostname: db
+      database.default.database: ${DB_NAME}
+      database.default.username: ${DB_USER}
+      database.default.password: ${DB_PASSWORD}
+      database.default.DBDriver: MySQLi
+      database.default.port: 3306
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      TZ: Europe/Istanbul
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    volumes:
+      - db_verisi:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  phpmyadmin:
+    image: phpmyadmin:5
+    profiles: ["dev"]
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+    depends_on:
+      - db
+
+volumes:
+  db_verisi:
