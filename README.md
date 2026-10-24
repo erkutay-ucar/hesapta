@@ -35,6 +35,45 @@ Proje Docker Compose ile çalışır.
    - Uygulama: http://localhost:8080
    - phpMyAdmin: http://localhost:8081
 
+4. Tabloları oluştur:
+
+   ```
+   docker compose exec app php spark migrate
+   ```
+
+5. Örnek verileri ekle:
+
+   ```
+   docker compose exec app php spark db:seed DemoSeeder
+   ```
+
+## Örnek giriş bilgileri
+
+Bu bilgiler `DemoSeeder` ile eklenir. T.C. numaraları sahtedir.
+
+| Rol | Giriş | Şifre / PIN |
+|---|---|---|
+| Platform yöneticisi | Kullanıcı adı: `admin` | `Admin1234` |
+| Restoran yöneticisi | T.C.: `11111111111` | `Yonetici123` |
+| Garson | T.C.: `22222222222` | `123456` |
+| Mutfak personeli | T.C.: `33333333333` | `654321` |
+
+Örnek restoran: **Lezzet Durağı** (id: 1)
+
+## Veritabanı tabloları
+
+| Tablo | İçerik |
+|---|---|
+| `restaurants` | Restoranlar |
+| `users` | Platform yöneticisi, restoran yöneticileri, garsonlar, mutfak personeli |
+| `restaurant_tables` | Masalar |
+| `categories` | Menü kategorileri |
+| `products` | Ürünler |
+| `orders` | Mutfağa giden siparişler (durum ve hesap açık/kapalı bilgisi) |
+| `order_items` | Sipariş kalemleri (adet, o anki fiyat, not, iptal bilgisi) |
+
+Platform yöneticisi dışındaki her kayıt `restaurant_id` ile bir restorana bağlıdır.
+
 ## .env dosyası
 
 | Ayar | Açıklama |
@@ -60,6 +99,10 @@ Böylece veritabanı bilgileri tek bir yerde (`.env`) yazılı olur.
 |---|---|
 | Projeyi başlat (phpMyAdmin dahil) | `docker compose --profile dev up -d --build` |
 | Projeyi durdur | `docker compose --profile dev down` |
+| Tabloları oluştur | `docker compose exec app php spark migrate` |
+| Örnek verileri ekle | `docker compose exec app php spark db:seed DemoSeeder` |
+| Tabloları silip yeniden oluştur | `docker compose exec app php spark migrate:refresh` |
+| Veritabanını tamamen sıfırla | `docker compose --profile dev down -v` |
 | Hata loglarını gör | `docker compose logs app` |
 
 Kodda değişiklik yaptıktan sonra projeyi `--build` ile yeniden başlat.
