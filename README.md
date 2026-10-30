@@ -60,6 +60,10 @@ Bu bilgiler `DemoSeeder` ile eklenir. T.C. numaraları sahtedir.
 
 Örnek restoran: **Lezzet Durağı** (id: 1)
 
+## Giriş adresleri
+
+- Platform yöneticisi: http://localhost:8080/admin
+
 ## Veritabanı tabloları
 
 | Tablo | İçerik |

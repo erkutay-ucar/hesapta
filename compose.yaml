@@ -5,13 +5,13 @@ services:
       - "8080:80"
     environment:
       CI_ENVIRONMENT: ${CI_ENVIRONMENT}
-      app.baseURL: ${APP_URL}
-      database.default.hostname: db
-      database.default.database: ${DB_NAME}
-      database.default.username: ${DB_USER}
-      database.default.password: ${DB_PASSWORD}
-      database.default.DBDriver: MySQLi
-      database.default.port: 3306
+      app_baseURL: ${APP_URL}
+      database_default_hostname: db
+      database_default_database: ${DB_NAME}
+      database_default_username: ${DB_USER}
+      database_default_password: ${DB_PASSWORD}
+      database_default_DBDriver: MySQLi
+      database_default_port: 3306
     depends_on:
       db:
         condition: service_healthy
