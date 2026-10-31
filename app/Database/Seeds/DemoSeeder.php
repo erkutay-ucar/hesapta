@@ -28,9 +28,10 @@ class DemoSeeder extends Seeder
         ]);
 
         $restoranId = $restoranModel->insert([
-            'name'    => 'Lezzet Durağı',
-            'address' => 'Örnek Mahallesi, Lezzet Sokak No: 1',
-            'phone'   => '0212 000 00 00',
+            'name'             => 'Lezzet Durağı',
+            'address'          => 'Örnek Mahallesi, Lezzet Sokak No: 1',
+            'phone'            => '0212 000 00 00',
+            'kitchen_pin_hash' => password_hash('654321', PASSWORD_DEFAULT),
         ]);
 
         $kullaniciModel->insert([
@@ -48,15 +49,6 @@ class DemoSeeder extends Seeder
             'name'          => 'Mehmet Demir',
             'tc'            => '22222222222',
             'password_hash' => password_hash('123456', PASSWORD_DEFAULT),
-            'is_active'     => 1,
-        ]);
-
-        $kullaniciModel->insert([
-            'restaurant_id' => $restoranId,
-            'role'          => 'kitchen',
-            'name'          => 'Fatma Kaya',
-            'tc'            => '33333333333',
-            'password_hash' => password_hash('654321', PASSWORD_DEFAULT),
             'is_active'     => 1,
         ]);
 

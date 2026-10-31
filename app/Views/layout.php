@@ -11,6 +11,9 @@
     <div class="bg-white border-end p-3" style="width: 230px;">
         <h4 class="mb-0">Hesapta</h4>
         <div class="small text-muted mb-3">
+            <?php if (session('restoran_adi')): ?>
+                <strong><?= esc(session('restoran_adi')) ?></strong><br>
+            <?php endif ?>
             <?= esc(session('kullanici_adi')) ?><br>
             <?= esc(rol_adi(session('rol'))) ?>
         </div>
@@ -19,6 +22,17 @@
             <?php if (session('rol') === 'platform_admin'): ?>
                 <a href="<?= site_url('admin/panel') ?>" class="list-group-item list-group-item-action">Ana Sayfa</a>
                 <a href="<?= site_url('admin/cikis') ?>" class="list-group-item list-group-item-action text-danger">Çıkış</a>
+            <?php endif ?>
+
+            <?php if (session('rol') === 'manager'): ?>
+                <a href="<?= site_url('yonetim') ?>" class="list-group-item list-group-item-action">Ana Sayfa</a>
+                <a href="<?= site_url('masalar') ?>" class="list-group-item list-group-item-action">Masalar</a>
+                <a href="<?= site_url('cikis') ?>" class="list-group-item list-group-item-action text-danger">Çıkış</a>
+            <?php endif ?>
+
+            <?php if (session('rol') === 'waiter'): ?>
+                <a href="<?= site_url('masalar') ?>" class="list-group-item list-group-item-action">Masalar</a>
+                <a href="<?= site_url('cikis') ?>" class="list-group-item list-group-item-action text-danger">Çıkış</a>
             <?php endif ?>
         </div>
     </div>
