@@ -19,11 +19,6 @@
         </div>
 
         <div class="list-group">
-            <?php if (session('rol') === 'platform_admin'): ?>
-                <a href="<?= site_url('admin/panel') ?>" class="list-group-item list-group-item-action">Ana Sayfa</a>
-                <a href="<?= site_url('admin/cikis') ?>" class="list-group-item list-group-item-action text-danger">Çıkış</a>
-            <?php endif ?>
-
             <?php if (session('rol') === 'manager'): ?>
                 <a href="<?= site_url('yonetim') ?>" class="list-group-item list-group-item-action">Ana Sayfa</a>
                 <a href="<?= site_url('masalar') ?>" class="list-group-item list-group-item-action">Masalar</a>

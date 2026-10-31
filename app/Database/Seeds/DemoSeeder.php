@@ -2,10 +2,10 @@
 
 namespace App\Database\Seeds;
 
+use App\Models\AyarModel;
 use App\Models\KategoriModel;
 use App\Models\KullaniciModel;
 use App\Models\MasaModel;
-use App\Models\RestoranModel;
 use App\Models\UrunModel;
 use CodeIgniter\Database\Seeder;
 
@@ -13,29 +13,20 @@ class DemoSeeder extends Seeder
 {
     public function run()
     {
-        $restoranModel = new RestoranModel();
+        $ayarModel = new AyarModel();
         $kullaniciModel = new KullaniciModel();
         $masaModel = new MasaModel();
         $kategoriModel = new KategoriModel();
         $urunModel = new UrunModel();
 
-        $kullaniciModel->insert([
-            'role'          => 'platform_admin',
-            'name'          => 'Platform Yöneticisi',
-            'username'      => 'admin',
-            'password_hash' => password_hash('Admin1234', PASSWORD_DEFAULT),
-            'is_active'     => 1,
-        ]);
-
-        $restoranId = $restoranModel->insert([
-            'name'             => 'Lezzet Durağı',
+        $ayarModel->insert([
+            'restaurant_name'  => 'Lezzet Durağı',
             'address'          => 'Örnek Mahallesi, Lezzet Sokak No: 1',
             'phone'            => '0212 000 00 00',
             'kitchen_pin_hash' => password_hash('654321', PASSWORD_DEFAULT),
         ]);
 
         $kullaniciModel->insert([
-            'restaurant_id' => $restoranId,
             'role'          => 'manager',
             'name'          => 'Ayşe Yılmaz',
             'tc'            => '11111111111',
@@ -44,7 +35,6 @@ class DemoSeeder extends Seeder
         ]);
 
         $kullaniciModel->insert([
-            'restaurant_id' => $restoranId,
             'role'          => 'waiter',
             'name'          => 'Mehmet Demir',
             'tc'            => '22222222222',
@@ -56,9 +46,8 @@ class DemoSeeder extends Seeder
 
         foreach ($masalar as $masaAdi) {
             $masaModel->insert([
-                'restaurant_id' => $restoranId,
-                'name'          => $masaAdi,
-                'is_active'     => 1,
+                'name'      => $masaAdi,
+                'is_active' => 1,
             ]);
         }
 
@@ -85,19 +74,17 @@ class DemoSeeder extends Seeder
 
         foreach ($menu as $kategoriAdi => $urunler) {
             $kategoriId = $kategoriModel->insert([
-                'restaurant_id' => $restoranId,
-                'name'          => $kategoriAdi,
-                'is_active'     => 1,
+                'name'      => $kategoriAdi,
+                'is_active' => 1,
             ]);
 
             foreach ($urunler as $urun) {
                 $urunModel->insert([
-                    'restaurant_id' => $restoranId,
-                    'category_id'   => $kategoriId,
-                    'name'          => $urun[0],
-                    'description'   => $urun[1],
-                    'price'         => $urun[2],
-                    'is_active'     => 1,
+                    'category_id' => $kategoriId,
+                    'name'        => $urun[0],
+                    'description' => $urun[1],
+                    'price'       => $urun[2],
+                    'is_active'   => 1,
                 ]);
             }
         }

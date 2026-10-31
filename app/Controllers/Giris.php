@@ -2,105 +2,80 @@
 
 namespace App\Controllers;
 
+use App\Models\AyarModel;
 use App\Models\KullaniciModel;
-use App\Models\RestoranModel;
-use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Giris extends BaseController
 {
-    public function anasayfa()
+    public function index()
     {
-        return view('anasayfa');
-    }
-
-    public function index($restoranId)
-    {
-        $restoranModel = new RestoranModel();
-        $restoran = $restoranModel->find($restoranId);
-
-        if (! $restoran) {
-            throw PageNotFoundException::forPageNotFound('Restoran bulunamadı.');
-        }
-
-        if (session('restoran_id') == $restoranId) {
+        if (session('rol')) {
             return redirect()->to(ana_sayfa_adresi(session('rol')));
         }
 
-        return view('giris/index', ['restoran' => $restoran]);
+        $ayarModel = new AyarModel();
+        $ayar = $ayarModel->first();
+
+        return view('giris/index', ['ayar' => $ayar]);
     }
 
-    public function girisYap($restoranId)
+    public function girisYap()
     {
-        $restoranModel = new RestoranModel();
-        $restoran = $restoranModel->find($restoranId);
-
-        if (! $restoran) {
-            throw PageNotFoundException::forPageNotFound('Restoran bulunamadı.');
-        }
-
-        $girisAdresi = 'restoran/' . $restoran['id'] . '/giris';
-
         $tc = trim((string) $this->request->getPost('tc'));
         $sifre = (string) $this->request->getPost('sifre');
 
         if ($tc === '' || $sifre === '') {
-            return redirect()->to($girisAdresi)->with('hata', 'T.C. kimlik numarası ve PIN / şifre boş bırakılamaz.');
+            return redirect()->to('giris')->with('hata', 'T.C. kimlik numarası ve PIN / şifre boş bırakılamaz.');
         }
 
         $kullaniciModel = new KullaniciModel();
         $kullanici = $kullaniciModel
-            ->where('restaurant_id', $restoran['id'])
             ->where('tc', $tc)
             ->whereIn('role', ['manager', 'waiter'])
             ->first();
 
         if (! $kullanici || ! password_verify($sifre, $kullanici['password_hash'])) {
-            return redirect()->to($girisAdresi)->with('hata', 'T.C. kimlik numarası veya PIN / şifre hatalı.');
+            return redirect()->to('giris')->with('hata', 'T.C. kimlik numarası veya PIN / şifre hatalı.');
         }
 
         if ($kullanici['is_active'] != 1) {
-            return redirect()->to($girisAdresi)->with('hata', 'Hesabınız pasif durumda. Restoran yöneticinizle görüşün.');
+            return redirect()->to('giris')->with('hata', 'Hesabınız pasif durumda. Restoran yöneticinizle görüşün.');
         }
+
+        $ayarModel = new AyarModel();
+        $ayar = $ayarModel->first();
 
         session()->regenerate();
         session()->set([
             'kullanici_id'  => $kullanici['id'],
             'kullanici_adi' => $kullanici['name'],
             'rol'           => $kullanici['role'],
-            'restoran_id'   => $restoran['id'],
-            'restoran_adi'  => $restoran['name'],
+            'restoran_adi'  => $ayar['restaurant_name'],
         ]);
 
         return redirect()->to(ana_sayfa_adresi($kullanici['role']));
     }
 
-    public function mutfakGirisYap($restoranId)
+    public function mutfakGirisYap()
     {
-        $restoranModel = new RestoranModel();
-        $restoran = $restoranModel->find($restoranId);
-
-        if (! $restoran) {
-            throw PageNotFoundException::forPageNotFound('Restoran bulunamadı.');
-        }
-
-        $girisAdresi = 'restoran/' . $restoran['id'] . '/giris';
-
         $pin = (string) $this->request->getPost('pin');
 
         if ($pin === '') {
-            return redirect()->to($girisAdresi)->with('hata', 'Mutfak PIN\'i boş bırakılamaz.');
+            return redirect()->to('giris')->with('hata', 'Mutfak PIN\'i boş bırakılamaz.');
         }
 
-        if (empty($restoran['kitchen_pin_hash']) || ! password_verify($pin, $restoran['kitchen_pin_hash'])) {
-            return redirect()->to($girisAdresi)->with('hata', 'Mutfak PIN\'i hatalı.');
+        $ayarModel = new AyarModel();
+        $ayar = $ayarModel->first();
+
+        if (! password_verify($pin, $ayar['kitchen_pin_hash'])) {
+            return redirect()->to('giris')->with('hata', 'Mutfak PIN\'i hatalı.');
         }
 
         session()->regenerate();
         session()->set([
             'kullanici_adi' => 'Mutfak',
             'rol'           => 'kitchen',
-            'restoran_id'   => $restoran['id'],
-            'restoran_adi'  => $restoran['name'],
+            'restoran_adi'  => $ayar['restaurant_name'],
         ]);
 
         return redirect()->to('mutfak');
@@ -108,14 +83,8 @@ class Giris extends BaseController
 
     public function cikis()
     {
-        $restoranId = session('restoran_id');
-
         session()->destroy();
 
-        if ($restoranId) {
-            return redirect()->to('restoran/' . $restoranId . '/giris');
-        }
-
-        return redirect()->to('/');
+        return redirect()->to('giris');
     }
 }

@@ -10,7 +10,7 @@ class GirisFiltresi implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        if (! session('restoran_id')) {
+        if (! session('rol')) {
             return redirect()->to('/')->with('hata', 'Bu sayfayı görmek için giriş yapmalısınız.');
         }
     }
