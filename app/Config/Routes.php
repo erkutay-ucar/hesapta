@@ -16,3 +16,6 @@ $routes->get('ayarlar', 'Ayarlar::index', ['filter' => ['auth', 'rol:manager']])
 $routes->post('ayarlar/restoran', 'Ayarlar::restoranKaydet', ['filter' => ['auth', 'rol:manager']]);
 $routes->post('ayarlar/mutfak-pin', 'Ayarlar::mutfakPinKaydet', ['filter' => ['auth', 'rol:manager']]);
 $routes->post('ayarlar/sifre', 'Ayarlar::sifreKaydet', ['filter' => ['auth', 'rol:manager']]);
+$routes->get('personeller', 'Personeller::index', ['filter' => ['auth', 'rol:manager']]);
+$routes->get('personeller/ekle', 'Personeller::ekle', ['filter' => ['auth', 'rol:manager']]);
+$routes->post('personeller/ekle', 'Personeller::kaydet', ['filter' => ['auth', 'rol:manager']]);

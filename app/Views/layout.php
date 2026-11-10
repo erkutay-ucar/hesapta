@@ -22,6 +22,7 @@
             <?php if (session('rol') === 'manager'): ?>
                 <a href="<?= site_url('yonetim') ?>" class="list-group-item list-group-item-action">Ana Sayfa</a>
                 <a href="<?= site_url('masalar') ?>" class="list-group-item list-group-item-action">Masalar</a>
+                <a href="<?= site_url('personeller') ?>" class="list-group-item list-group-item-action">Personeller</a>
                 <a href="<?= site_url('ayarlar') ?>" class="list-group-item list-group-item-action">Ayarlar</a>
                 <a href="<?= site_url('cikis') ?>" class="list-group-item list-group-item-action text-danger">Çıkış</a>
             <?php endif ?>
@@ -42,6 +43,14 @@
 
         <?php if (session()->getFlashdata('hata')): ?>
             <div class="alert alert-danger"><?= esc(session()->getFlashdata('hata')) ?></div>
+        <?php endif ?>
+
+        <?php if (session()->getFlashdata('hatalar')): ?>
+            <div class="alert alert-danger">
+                <?php foreach (session()->getFlashdata('hatalar') as $hataMesaji): ?>
+                    <div><?= esc($hataMesaji) ?></div>
+                <?php endforeach ?>
+            </div>
         <?php endif ?>
 
         <?= $this->renderSection('icerik') ?>

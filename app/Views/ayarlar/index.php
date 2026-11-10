@@ -2,14 +2,6 @@
 
 <?= $this->section('icerik') ?>
 
-<?php if (session()->getFlashdata('hatalar')): ?>
-    <div class="alert alert-danger">
-        <?php foreach (session()->getFlashdata('hatalar') as $hataMesaji): ?>
-            <div><?= esc($hataMesaji) ?></div>
-        <?php endforeach ?>
-    </div>
-<?php endif ?>
-
 <div class="row">
     <div class="col-lg-6">
         <div class="card mb-4">
