@@ -19,3 +19,7 @@ $routes->post('ayarlar/sifre', 'Ayarlar::sifreKaydet', ['filter' => ['auth', 'ro
 $routes->get('personeller', 'Personeller::index', ['filter' => ['auth', 'rol:manager']]);
 $routes->get('personeller/ekle', 'Personeller::ekle', ['filter' => ['auth', 'rol:manager']]);
 $routes->post('personeller/ekle', 'Personeller::kaydet', ['filter' => ['auth', 'rol:manager']]);
+$routes->get('personeller/duzenle/(:num)', 'Personeller::duzenle/$1', ['filter' => ['auth', 'rol:manager']]);
+$routes->post('personeller/duzenle/(:num)', 'Personeller::guncelle/$1', ['filter' => ['auth', 'rol:manager']]);
+$routes->post('personeller/pin/(:num)', 'Personeller::pinDegistir/$1', ['filter' => ['auth', 'rol:manager']]);
+$routes->post('personeller/durum/(:num)', 'Personeller::durumDegistir/$1', ['filter' => ['auth', 'rol:manager']]);
