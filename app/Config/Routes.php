@@ -23,3 +23,10 @@ $routes->get('personeller/duzenle/(:num)', 'Personeller::duzenle/$1', ['filter' 
 $routes->post('personeller/duzenle/(:num)', 'Personeller::guncelle/$1', ['filter' => ['auth', 'rol:manager']]);
 $routes->post('personeller/pin/(:num)', 'Personeller::pinDegistir/$1', ['filter' => ['auth', 'rol:manager']]);
 $routes->post('personeller/durum/(:num)', 'Personeller::durumDegistir/$1', ['filter' => ['auth', 'rol:manager']]);
+$routes->get('masa-yonetimi', 'MasaYonetimi::index', ['filter' => ['auth', 'rol:manager']]);
+$routes->get('masa-yonetimi/ekle', 'MasaYonetimi::ekle', ['filter' => ['auth', 'rol:manager']]);
+$routes->post('masa-yonetimi/ekle', 'MasaYonetimi::kaydet', ['filter' => ['auth', 'rol:manager']]);
+$routes->get('masa-yonetimi/duzenle/(:num)', 'MasaYonetimi::duzenle/$1', ['filter' => ['auth', 'rol:manager']]);
+$routes->post('masa-yonetimi/duzenle/(:num)', 'MasaYonetimi::guncelle/$1', ['filter' => ['auth', 'rol:manager']]);
+$routes->post('masa-yonetimi/durum/(:num)', 'MasaYonetimi::durumDegistir/$1', ['filter' => ['auth', 'rol:manager']]);
+$routes->post('masa-yonetimi/sil/(:num)', 'MasaYonetimi::sil/$1', ['filter' => ['auth', 'rol:manager']]);
